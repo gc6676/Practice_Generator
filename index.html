@@ -4,166 +4,144 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Generador de Propuestas de Movimiento</title>
+
   <style>
-  :root{
-    --bg: #0a0a0a;
-    --text: #00ff00;
-    --btn: #111111;
-  }
+    :root{
+      --bg: #0a0a0a;
+      --text: #00ff00;
+      --btn: #111111;
+    }
 
-  body{
-    margin: 0;
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--text);
-    font-family: "Courier New", Courier, monospace;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 28px;
-    gap: 16px;
-  }
+    body{
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Courier New", Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px;
+      gap: 16px;
+    }
 
-  h1{
-    margin: 0;
-    font-size: 22px;
-  }
+    h1{
+      margin: 0;
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+    }
 
-  button{
-    background: var(--btn);
-    color: var(--text);
-    border: 1px solid var(--text);
-    padding: 12px 16px;
-    font-size: 16px;
-    cursor: pointer;
-  }
+    #subtitle{
+      margin: 0;
+      font-size: 14px;
+      font-weight: normal;
+      max-width: 560px;
+      text-align: center;
+      line-height: 1.4;
+      opacity: 0.9;
+    }
 
-  button:active{
-    transform: translateY(1px);
-  }
+    button{
+      background: var(--btn);
+      color: var(--text);
+      border: 1px solid var(--text);
+      padding: 12px 16px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-  pre{
-    width: min(560px, 100%);
-    background: #050505;
-    border: 1px solid #1f1f1f;
-    padding: 16px;
-    font-size: 16px;
-    white-space: pre-wrap;
-  }
-</style>
+    button:active{
+      transform: translateY(1px);
+    }
 
+    pre{
+      width: min(560px, 100%);
+      background: #050505;
+      border: 1px solid #1f1f1f;
+      padding: 16px;
+      font-size: 16px;
+      white-space: pre-wrap;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Generador de Propuestas</h1>
+  <h1>Generador de Propuestas de Movimiento</h1>
+
+  <p id="subtitle">
+    Esta herramienta genera conceptos y estructuras aleatorias para activar prácticas de movimiento e investigación escénica.
+  </p>
 
   <button id="btn">GENERAR PROPUESTA</button>
-  <button id="copy">COPIAR</button>
   <button id="share">COMPARTIR</button>
-
 
   <pre id="out">Pulsa el botón…</pre>
 
   <script>
-  const conceptos = ["Peso","Suspensión","Rebote","Aislamiento","Espiral","Oposición","Pausa","Fractura","Continuidad","Desplazamiento"];
-  const calidades = ["Líquido","Staccato","Pesado","Elástico","Nervioso","Flotante","Mecánico","Denso","Ligero"];
-  const restricciones = ["Sin manos","Sin saltos","Sin giros","Un solo nivel","Mirada fija","Solo diagonales","Sin desplazarte","Solo una articulación (tobillos/rodillas/cadera)"];
-  const estructuras = ["Llamada–respuesta","Canon","Acumulación","Espejo","Unísono roto","Impro guiada","Solo/Grupo alternando","Frase A / Frase B"];
-  const espacios = ["Suelo","Medio","Alto","Círculo","Líneas","Esquinas","Cerca/lejos","Frente/perfil/espalda"];
-  const tiempoMusica = ["Silencio","Metrónomo","Palmadas","Cambios cada 16","Congelado 8s cada 32","3 tempos (lento→medio→rápido)","Música aleatoria"];
+    const conceptos = ["Peso","Suspensión","Rebote","Aislamiento","Espiral","Oposición","Pausa","Fractura","Continuidad","Desplazamiento"];
+    const calidades = ["Líquido","Staccato","Pesado","Elástico","Nervioso","Flotante","Mecánico","Denso","Ligero"];
+    const restricciones = ["Sin manos","Sin saltos","Sin giros","Un solo nivel","Mirada fija","Solo diagonales","Sin desplazarte","Solo una articulación (tobillos/rodillas/cadera)"];
+    const estructuras = ["Llamada–respuesta","Canon","Acumulación","Espejo","Unísono roto","Impro guiada","Solo/Grupo alternando","Frase A / Frase B"];
+    const espacios = ["Suelo","Medio","Alto","Círculo","Líneas","Esquinas","Cerca/lejos","Frente/perfil/espalda"];
+    const tiempoMusica = ["Silencio","Metrónomo","Palmadas","Cambios cada 16","Congelado 8s cada 32","3 tempos (lento→medio→rápido)","Música aleatoria"];
 
-  function pick(lista) {
-    const i = Math.floor(Math.random() * lista.length);
-    return lista[i];
-  }
-
-  function generarPropuesta() {
-    return [
-      "🟩 PROPUESTA",
-      "",
-      `Concepto: ${pick(conceptos)}`,
-      `Calidad: ${pick(calidades)}`,
-      `Restricción: ${pick(restricciones)}`,
-      `Estructura: ${pick(estructuras)}`,
-      `Espacio: ${pick(espacios)}`,
-      `Tiempo/Música: ${pick(tiempoMusica)}`
-    ].join("\n");
-  }
-
-  const btn = document.getElementById("btn");
-  const out = document.getElementById("out");
-  const copyBtn = document.getElementById("copy");
-
-  // 1) Generar
-  btn.addEventListener("click", () => {
-    out.textContent = generarPropuesta();
-  });
-
-  // 2) Copiar
-  async function copiarTexto(text) {
-  // Método moderno (cuando iOS lo permite)
-  if (navigator.clipboard && window.isSecureContext) {
-    await navigator.clipboard.writeText(text);
-    return;
-  }
-
-  // Fallback robusto para iOS
-  const ta = document.createElement("textarea");
-  ta.value = text;
-
-  // Evita que haga scroll / zoom raro en iOS
-  ta.setAttribute("readonly", "");
-  ta.style.position = "fixed";
-  ta.style.top = "-1000px";
-  ta.style.left = "-1000px";
-  ta.style.opacity = "0";
-
-  document.body.appendChild(ta);
-
-  ta.focus();
-  ta.select();
-  ta.setSelectionRange(0, ta.value.length); // iOS necesita esto a veces
-
-  const ok = document.execCommand("copy");
-  document.body.removeChild(ta);
-
-  if (!ok) throw new Error("execCommand copy failed");
-}
-
-
-  copyBtn.addEventListener("click", async () => {
-    const text = out.textContent;
-    if (!text.trim() || text.includes("Pulsa el botón")) return;
-
-    try {
-      await copiarTexto(text);
-      copyBtn.textContent = "COPIADO ✓";
-      setTimeout(() => copyBtn.textContent = "COPIAR", 1200);
-    } catch (e) {
-      alert("No se pudo copiar");
+    function pick(lista) {
+      const i = Math.floor(Math.random() * lista.length);
+      return lista[i];
     }
-  });
 
-const shareBtn = document.getElementById("share");
-
-shareBtn.addEventListener("click", async () => {
-  const text = out.textContent;
-  if (!text.trim() || text.includes("Pulsa el botón")) return;
-
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title: "Propuesta para clase",
-        text: text
-      });
-    } catch (e) {
-      // Si cancelas el share, no hacemos nada
+    function randomLetter() {
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      return letters[Math.floor(Math.random() * letters.length)];
     }
-  } else {
-    alert("Compartir no está disponible aquí. Usa iPhone/Safari.");
-  }
-});
 
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function generarPropuesta() {
+      const seed = `${randomLetter()}-${randomInt(1, 99)}`;
+
+      return [
+        `🟩 PROPUESTA ${seed}`,
+        "",
+        `Concepto: ${pick(conceptos)}`,
+        `Calidad: ${pick(calidades)}`,
+        `Restricción: ${pick(restricciones)}`,
+        `Estructura: ${pick(estructuras)}`,
+        `Espacio: ${pick(espacios)}`,
+        `Tiempo/Música: ${pick(tiempoMusica)}`
+      ].join("\n");
+    }
+
+    const btn = document.getElementById("btn");
+    const out = document.getElementById("out");
+    const shareBtn = document.getElementById("share");
+
+    // Generar
+    btn.addEventListener("click", () => {
+      out.textContent = generarPropuesta();
+    });
+
+    // Compartir (iPhone)
+    shareBtn.addEventListener("click", async () => {
+      const text = out.textContent;
+      if (!text.trim() || text.includes("Pulsa el botón")) return;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "Propuesta para clase",
+            text: text
+          });
+        } catch (e) {
+          // Si cancelas, no hacemos nada
+        }
+      } else {
+        alert("Compartir no está disponible aquí. Usa iPhone/Safari.");
+      }
+    });
   </script>
 </body>
 </html>
