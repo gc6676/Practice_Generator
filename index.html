@@ -79,12 +79,175 @@
   <pre id="out">Pulsa el botón…</pre>
 
   <script>
-    const conceptos = ["Peso","Suspensión","Rebote","Aislamiento","Espiral","Oposición","Pausa","Fractura","Continuidad","Desplazamiento"];
-    const calidades = ["Líquido","Staccato","Pesado","Elástico","Nervioso","Flotante","Mecánico","Denso","Ligero"];
-    const restricciones = ["Sin manos","Sin saltos","Sin giros","Un solo nivel","Mirada fija","Solo diagonales","Sin desplazarte","Solo una articulación (tobillos/rodillas/cadera)"];
-    const estructuras = ["Llamada–respuesta","Canon","Acumulación","Espejo","Unísono roto","Impro guiada","Solo/Grupo alternando","Frase A / Frase B"];
-    const espacios = ["Suelo","Medio","Alto","Círculo","Líneas","Esquinas","Cerca/lejos","Frente/perfil/espalda"];
-    const tiempoMusica = ["Silencio","Metrónomo","Palmadas","Cambios cada 16","Congelado 8s cada 32","3 tempos (lento→medio→rápido)","Música aleatoria"];
+    const conceptos = [
+      "Peso del cuerpo",
+      "Peso de los brazos",
+      "Peso de las piernas",
+      "Peso de la cabeza",
+      "Peso de la columna",
+      "Suspensión",
+      "Rebote",
+      "Aislamiento de los brazos",
+      "Aislamiento de un brazo",
+      "Aislamiento del torso",
+      "Aislamiento de las piernas",
+      "Aislamiento de articulaciones",
+      "Espirales del torso",
+      "Espirales",
+      "Espirales lentas/rápidas",
+      "Espirales grandes/pequeñas",
+      "Oposición de direcciones",
+      "Pausas",
+      "Pausas y repeticiones",
+      "Micro pausas",
+      "Fracturas",
+      "Distorsiones",
+      "Fracturas y distorsiones",
+      "Micro fracturas",
+      "Fracturas y pausas",
+      "Distorsiones y cambio de ritmos",
+      "Distorsiones y mirada fija",
+      "Mirada fija",
+      "Mirada perdida",
+      "Mirada al propio cuerpo",
+      "Mirada buscando",
+      "Continuidad con aislamientos",
+      "Continuidad",
+      "Continuidad con cambios de velocidad",
+      "Continuidad con oposiciones de dirección",
+      "Diferentes apoyos al suelo",
+      "Desestabilidad",
+      "Siempre en contacto con el suelo",
+      "Desplazamiento",
+      "Transferencia de peso",
+      "Colapso incontrolado",
+      "Dinámica estética",
+      "Suspensión dinámica",
+      "Impulso",
+      "Impulsos continuos",
+      "Impulso constante",
+      "Arrastre",
+      "Arrastre de una parte del cuerpo",
+      "Resistencia",
+      "Resistencia contra el aire",
+      "Proyección",
+      "Inercia"
+    ];
+
+    const calidades = [
+      "Líquido",
+      "Staccato",
+      "Pesado",
+      "Elástico",
+      "Nervioso",
+      "Flotante",
+      "Mecánico",
+      "Denso",
+      "Ligero",
+      "Poroso",
+      "Cortado",
+      "Expandido",
+      "Contraído",
+      "Vibrante",
+      "Fragmentado",
+      "Continuo",
+      "Explosivo",
+      "Suspendido"
+    ];
+
+    const restricciones = [
+      "Sin manos",
+      "Sin giros",
+      "Un solo nivel",
+      "Mirada fija",
+      "Solo diagonales",
+      "Sin desplazarte",
+      "Solo una articulación (tobillos/rodillas/cadera)",
+      "Sin contacto visual",
+      "Sin pausa",
+      "Todo inicia desde la pelvis",
+      "Solo apoyos laterales",
+      "Evitar el centro",
+      "Solo desplazamientos circulares",
+      "Movimiento mínimo",
+      "Movimiento máximo"
+    ];
+
+    // 1) Estructuras de acción / desarrollo
+    const estructurasAccionDesarrollo = [
+      "Entrada suave",
+      "Entrada lenta",
+      "Entrada brusca",
+      "Entrada casi invisible",
+      "Comienzo desde la quietud",
+      "Comienzo desde el movimiento",
+      "Permanecer en la misma posición dos veces",
+      "Permanecer más tiempo del esperado",
+      "Cambiar solo cuando sea inevitable",
+      "Evitar el cambio",
+      "Cambiar de estado sin desplazarse",
+      "Desplazarse sin cambiar de estado",
+      "Acelerar progresivamente",
+      "Desacelerar progresivamente",
+      "Mantener una sola calidad",
+      "Introducir una sola variación",
+      "Repetir hasta agotar",
+      "Interrumpir antes de completar",
+      "Suspender la acción y retomarla",
+      "Detenerse y observar",
+      "Salida lenta",
+      "Salida brusca",
+      "Salida progresiva",
+      "Desaparición gradual",
+      "Quedarse cuando “debería” salir"
+    ];
+
+    // 2) Estructuras de composición
+    const estructurasComposicion = [
+      "Repetir una secuencia dos veces",
+      "Repetir una secuencia tres veces",
+      "Repetir una secuencia al revés",
+      "Repetir solo una parte",
+      "Variar una repetición",
+      "Deformar una repetición",
+      "Entrar igual que se sale",
+      "Salir muy diferente a la entrada",
+      "Entrar como si fuera una salida",
+      "Salir como si fuera una entrada",
+      "Construir un inicio claro",
+      "Construir un final claro",
+      "Evitar un final",
+      "Cortar antes del final",
+      "Crear un bucle",
+      "Volver al inicio",
+      "Retomar un momento anterior",
+      "Citar un movimiento pasado",
+      "Transformar un gesto en secuencia",
+      "Reducir una secuencia",
+      "Expandir una secuencia",
+      "Componer por capas",
+      "Componer por acumulación",
+      "Componer por contraste",
+      "Mantener una lógica interna",
+      "Romper la lógica establecida"
+    ];
+
+    const espacios = [
+      "Suelo",
+      "Medio",
+      "Alto",
+      "Círculo",
+      "Líneas",
+      "Esquinas",
+      "Cerca / Lejos",
+      "Frente / Perfil / Espalda",
+      "Diagonal larga",
+      "Centro vacío",
+      "Perímetro",
+      "Trayectorias cruzadas",
+      "Espacio compartido",
+      "Espacio individual"
+    ];
 
     function pick(lista) {
       const i = Math.floor(Math.random() * lista.length);
@@ -109,9 +272,9 @@
         `Concepto: ${pick(conceptos)}`,
         `Calidad: ${pick(calidades)}`,
         `Restricción: ${pick(restricciones)}`,
-        `Estructura: ${pick(estructuras)}`,
-        `Espacio: ${pick(espacios)}`,
-        `Tiempo/Música: ${pick(tiempoMusica)}`
+        `Estructura (Acción/Desarrollo): ${pick(estructurasAccionDesarrollo)}`,
+        `Estructura (Composición): ${pick(estructurasComposicion)}`,
+        `Espacio: ${pick(espacios)}`
       ].join("\n");
     }
 
