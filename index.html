@@ -59,6 +59,8 @@
 
   <button id="btn">GENERAR PROPUESTA</button>
   <button id="copy">COPIAR</button>
+  <button id="share">COMPARTIR</button>
+
 
   <pre id="out">Pulsa el botón…</pre>
 
@@ -142,6 +144,25 @@
     }
   });
 
+const shareBtn = document.getElementById("share");
+
+shareBtn.addEventListener("click", async () => {
+  const text = out.textContent;
+  if (!text.trim() || text.includes("Pulsa el botón")) return;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "Propuesta para clase",
+        text: text
+      });
+    } catch (e) {
+      // Si cancelas el share, no hacemos nada
+    }
+  } else {
+    alert("Compartir no está disponible aquí. Usa iPhone/Safari.");
+  }
+});
 
   </script>
 </body>
