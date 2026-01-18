@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Generador de Propuestas</title>
+  <title>Generador de Propuestas de Movimiento</title>
   <style>
   :root{
     --bg: #0a0a0a;
@@ -63,37 +63,68 @@
   <pre id="out">Pulsa el botón…</pre>
 
   <script>
-    const conceptos = ["Peso","Suspensión","Rebote","Aislamiento","Espiral","Oposición","Pausa","Fractura","Continuidad","Desplazamiento"];
-    const calidades = ["Líquido","Staccato","Pesado","Elástico","Nervioso","Flotante","Mecánico","Denso","Ligero"];
-    const restricciones = ["Sin manos","Sin saltos","Sin giros","Un solo nivel","Mirada fija","Solo diagonales","Sin desplazarte","Solo una articulación (tobillos/rodillas/cadera)"];
-    const estructuras = ["Llamada–respuesta","Canon","Acumulación","Espejo","Unísono roto","Impro guiada","Solo/Grupo alternando","Frase A / Frase B"];
-    const espacios = ["Suelo","Medio","Alto","Círculo","Líneas","Esquinas","Cerca/lejos","Frente/perfil/espalda"];
-    const tiempoMusica = ["Silencio","Metrónomo","Palmadas","Cambios cada 16","Congelado 8s cada 32","3 tempos (lento→medio→rápido)","Música aleatoria"];
+  const conceptos = ["Peso","Suspensión","Rebote","Aislamiento","Espiral","Oposición","Pausa","Fractura","Continuidad","Desplazamiento"];
+  const calidades = ["Líquido","Staccato","Pesado","Elástico","Nervioso","Flotante","Mecánico","Denso","Ligero"];
+  const restricciones = ["Sin manos","Sin saltos","Sin giros","Un solo nivel","Mirada fija","Solo diagonales","Sin desplazarte","Solo una articulación (tobillos/rodillas/cadera)"];
+  const estructuras = ["Llamada–respuesta","Canon","Acumulación","Espejo","Unísono roto","Impro guiada","Solo/Grupo alternando","Frase A / Frase B"];
+  const espacios = ["Suelo","Medio","Alto","Círculo","Líneas","Esquinas","Cerca/lejos","Frente/perfil/espalda"];
+  const tiempoMusica = ["Silencio","Metrónomo","Palmadas","Cambios cada 16","Congelado 8s cada 32","3 tempos (lento→medio→rápido)","Música aleatoria"];
 
-    function pick(lista) {
-      const i = Math.floor(Math.random() * lista.length);
-      return lista[i];
+  function pick(lista) {
+    const i = Math.floor(Math.random() * lista.length);
+    return lista[i];
+  }
+
+  function generarPropuesta() {
+    return [
+      "🟩 PROPUESTA",
+      "",
+      `Concepto: ${pick(conceptos)}`,
+      `Calidad: ${pick(calidades)}`,
+      `Restricción: ${pick(restricciones)}`,
+      `Estructura: ${pick(estructuras)}`,
+      `Espacio: ${pick(espacios)}`,
+      `Tiempo/Música: ${pick(tiempoMusica)}`
+    ].join("\n");
+  }
+
+  const btn = document.getElementById("btn");
+  const out = document.getElementById("out");
+  const copyBtn = document.getElementById("copy");
+
+  // 1) Generar
+  btn.addEventListener("click", () => {
+    out.textContent = generarPropuesta();
+  });
+
+  // 2) Copiar
+  async function copiarTexto(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
     }
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+  }
 
-    function generarPropuesta() {
-      return [
-        "🟩 PROPUESTA",
-        "",
-        `Concepto: ${pick(conceptos)}`,
-        `Calidad: ${pick(calidades)}`,
-        `Restricción: ${pick(restricciones)}`,
-        `Estructura: ${pick(estructuras)}`,
-        `Espacio: ${pick(espacios)}`,
-        `Tiempo/Música: ${pick(tiempoMusica)}`
-      ].join("\n");
+  copyBtn.addEventListener("click", async () => {
+    const text = out.textContent;
+    if (!text.trim() || text.includes("Pulsa el botón")) return;
+
+    try {
+      await copiarTexto(text);
+      copyBtn.textContent = "COPIADO ✓";
+      setTimeout(() => copyBtn.textContent = "COPIAR", 1200);
+    } catch (e) {
+      alert("No se pudo copiar");
     }
+  });
 
-    const btn = document.getElementById("btn");
-    const out = document.getElementById("out");
 
-    btn.addEventListener("click", () => {
-      out.textContent = generarPropuesta();
-    });
   </script>
 </body>
 </html>
