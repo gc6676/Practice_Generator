@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Generador de Propuestas</title>
+  <style>
+  :root{
+    --bg: #0a0a0a;
+    --text: #00ff00;
+    --btn: #111111;
+  }
+
+  body{
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Courier New", Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px;
+    gap: 16px;
+  }
+
+  h1{
+    margin: 0;
+    font-size: 22px;
+  }
+
+  button{
+    background: var(--btn);
+    color: var(--text);
+    border: 1px solid var(--text);
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  button:active{
+    transform: translateY(1px);
+  }
+
+  pre{
+    width: min(560px, 100%);
+    background: #050505;
+    border: 1px solid #1f1f1f;
+    padding: 16px;
+    font-size: 16px;
+    white-space: pre-wrap;
+  }
+</style>
+
+</head>
+
+<body>
+  <h1>Generador de Propuestas</h1>
+
+  <button id="btn">GENERAR PROPUESTA</button>
+  <button id="copy">COPIAR</button>
+
+  <pre id="out">Pulsa el botón…</pre>
+
+  <script>
+    const conceptos = ["Peso","Suspensión","Rebote","Aislamiento","Espiral","Oposición","Pausa","Fractura","Continuidad","Desplazamiento"];
+    const calidades = ["Líquido","Staccato","Pesado","Elástico","Nervioso","Flotante","Mecánico","Denso","Ligero"];
+    const restricciones = ["Sin manos","Sin saltos","Sin giros","Un solo nivel","Mirada fija","Solo diagonales","Sin desplazarte","Solo una articulación (tobillos/rodillas/cadera)"];
+    const estructuras = ["Llamada–respuesta","Canon","Acumulación","Espejo","Unísono roto","Impro guiada","Solo/Grupo alternando","Frase A / Frase B"];
+    const espacios = ["Suelo","Medio","Alto","Círculo","Líneas","Esquinas","Cerca/lejos","Frente/perfil/espalda"];
+    const tiempoMusica = ["Silencio","Metrónomo","Palmadas","Cambios cada 16","Congelado 8s cada 32","3 tempos (lento→medio→rápido)","Música aleatoria"];
+
+    function pick(lista) {
+      const i = Math.floor(Math.random() * lista.length);
+      return lista[i];
+    }
+
+    function generarPropuesta() {
+      return [
+        "🟩 PROPUESTA",
+        "",
+        `Concepto: ${pick(conceptos)}`,
+        `Calidad: ${pick(calidades)}`,
+        `Restricción: ${pick(restricciones)}`,
+        `Estructura: ${pick(estructuras)}`,
+        `Espacio: ${pick(espacios)}`,
+        `Tiempo/Música: ${pick(tiempoMusica)}`
+      ].join("\n");
+    }
+
+    const btn = document.getElementById("btn");
+    const out = document.getElementById("out");
+
+    btn.addEventListener("click", () => {
+      out.textContent = generarPropuesta();
+    });
+  </script>
+</body>
+</html>
